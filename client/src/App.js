@@ -1,10 +1,9 @@
 import './App.css';
-
 function App() {
+ 
+
   return (
-    <div className="App">
-    <h1>Food Delivery</h1>
-    </div>
+    <div>app.js</div>
   );
 }
 
