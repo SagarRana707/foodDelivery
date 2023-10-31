@@ -61,7 +61,7 @@ const signInWithEmailPassword = async () => {
   try {
     if (userEmail !== "" && password !== "") {
       const userCredential = await signInWithEmailAndPassword(firebaseAuth, userEmail, password);
-
+console.log("User credential from login ignore",userCredential);
       firebaseAuth.onAuthStateChanged(async (userCredential) => {
         if (userCredential) {
           const token = await userCredential.getIdToken();
@@ -72,7 +72,6 @@ const signInWithEmailPassword = async () => {
       });
     }
   } catch (error) {
-    // Handle the error, e.g., display an error message to the user
     console.error("Error signing in:", error);
   }
 };
