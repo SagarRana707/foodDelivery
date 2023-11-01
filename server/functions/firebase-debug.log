@@ -2456,3 +2456,51 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
 [debug] [2023-10-31T13:15:07.338Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finishing up request with event=finish"}}
 [debug] [2023-10-31T13:15:07.338Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finishing up request with event=close"}}
 [debug] [2023-10-31T13:15:07.338Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2023-10-31T13:19:25.359Z] File D:\foodDelivery\server\functions\package-lock.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File D:\\foodDelivery\\server\\functions\\package-lock.json changed, reloading triggers"}}
+[debug] [2023-10-31T13:19:26.375Z] Validating nodejs source
+[debug] [2023-10-31T13:19:28.610Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-10-31T13:19:28.610Z] Building nodejs source
+[debug] [2023-10-31T13:19:28.610Z] Failed to find version of module node: reached end of search path D:\foodDelivery\server\functions\node_modules
+[info] +  functions: Using node@18 from host. 
+[info] i  functions: Loaded environment variables from .env. 
+[debug] [2023-10-31T13:19:28.613Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-10-31T13:19:28.622Z] Found firebase-functions binary at 'D:\foodDelivery\server\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8475
+
+[debug] [2023-10-31T13:19:29.485Z] Got response from /__/functions.yaml {"endpoints":{"app":{"platform":"gcfv1","availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"serviceAccountEmail":null,"vpc":null,"httpsTrigger":{},"entryPoint":"app"}},"specVersion":"v1alpha1","requiredAPIs":[]}
+[info] shutdown requested via /__/quitquitquit
+
+[info] +  functions: Loaded functions definitions from source: app. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: app."}}
+[debug] [2023-10-31T13:19:29.507Z] [worker-pool] Shutting down IDLE worker (us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Shutting down IDLE worker (us-central1-app)"}}
+[debug] [2023-10-31T13:19:29.508Z] [worker-us-central1-app-0c161309-03a3-40af-b06c-51d6a08b25de]: FINISHING {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[worker-us-central1-app-0c161309-03a3-40af-b06c-51d6a08b25de]: FINISHING"}}
+[debug] [2023-10-31T13:19:29.517Z] [worker-us-central1-app-0c161309-03a3-40af-b06c-51d6a08b25de]: exited {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[worker-us-central1-app-0c161309-03a3-40af-b06c-51d6a08b25de]: exited"}}
+[debug] [2023-10-31T13:19:29.517Z] [worker-us-central1-app-0c161309-03a3-40af-b06c-51d6a08b25de]: FINISHED {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"[worker-us-central1-app-0c161309-03a3-40af-b06c-51d6a08b25de]: FINISHED"}}
