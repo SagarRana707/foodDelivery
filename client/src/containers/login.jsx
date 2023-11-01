@@ -100,13 +100,13 @@ console.log("User credential from login ignore",userCredential);
   }
 };
   return (
-    <div className=" w-screen h-screen relative overflow-hidden flex">
+    <div className=" w-full h-full relative flex">
       <img
         src={LoginBg}
         alt="background Login"
-        className=" w-full h-full object-cover absolute top-0 left-0"
+        className=" w-full h-full object-cover  absolute top-0 left-0"
       />
-      <div className=" flex flex-col items-center bg-cardOverlay w-[40%] md:w-508 p-4 px-4 py-12  h-full z-10 backdrop-blur-sm gap-6">
+      <div className=" flex flex-col h-fit items-center bg-cardOverlay w-[40%] md:w-508 p-4 px-4 py-12  z-10 backdrop-blur-sm gap-6">
         <div className=" flex item-center justify-start gap-4 w-full flex-row">
           <img
             src={logo}
