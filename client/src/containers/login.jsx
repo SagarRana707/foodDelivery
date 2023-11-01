@@ -1,28 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LoginBg, logo } from "../assets/index";
-import { LoginInput } from "../components";
+import { Alert, LoginInput, MainLoader } from "../components";
 import { FaEnvelope, FaLock, FcGoogle } from "../assets/icons/index";
 import { motion } from "framer-motion";
-import { buttonClick } from "../animations";
+import { buttonClick, fadeInOut } from "../animations";
 import {getAuth,signInWithPopup,GoogleAuthProvider,createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {app } from "../config/firebase.config";
 import { validateUsersJwtToken } from "../api";
 import {useNavigate} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserDetails } from "../context/actions/userAction";
+import { alertInfo, alertWarning } from "../context/actions/alertActions";
 const Login = () => {
+  const user = useSelector(state => state.user);
+  const alert = useSelector(state => state.alert);
+  const dispatch =  useDispatch();
   const navigate = useNavigate();
+  const [isLoading,setIsLoading] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 const firebaseAuth = getAuth(app);
-const provider = new GoogleAuthProvider()
+const provider = new GoogleAuthProvider();
+useEffect(() => {
+  setIsLoading(true);
+    firebaseAuth.onAuthStateChanged((usercredential) => {
+      if (usercredential) {
+        usercredential.getIdToken().then((token) =>
+          validateUsersJwtToken(token).then((data) => {
+            dispatch(setUserDetails(data))
+          })
+        );
+      }
+      setIsLoading(false);
+    });
+  if(user){
+    console.log("user : " , user);
+    navigate("/",{replace : true});
+  }
+},[navigate,user,firebaseAuth,dispatch]);
 const loginWithGoogle = async () => {
   try {
      await signInWithPopup(firebaseAuth, provider).then( userCredential => {
       firebaseAuth.onAuthStateChanged((usercredential) => {
         if(usercredential){
          usercredential.getIdToken().then(token => validateUsersJwtToken(token).then(data => {
-          console.log("Token :",data);
+          dispatch(setUserDetails(data));
          })) ;
         }
     navigate("/",{replace : true});
@@ -35,7 +59,7 @@ const loginWithGoogle = async () => {
 };
 const signUpWithEmailPass = async () => {
   if(userEmail === "" || password === "" || confirmPassword === ""){
-    alert("Enter the empty fields");
+    dispatch(alertInfo("Required Field should not be empty"));
   }else{
     if(password === confirmPassword){
       setConfirmPassword("");
@@ -45,14 +69,14 @@ await createUserWithEmailAndPassword(firebaseAuth,userEmail,password).then(userC
   firebaseAuth.onAuthStateChanged((usercredential) => {
     if(usercredential){
      usercredential.getIdToken().then(token => validateUsersJwtToken(token).then(data => {
-      console.log("Token :",data);
+      dispatch(setUserDetails(data));
      })) ;
     }
     navigate("/",{replace : true});
   })
 });
     }else{
-      alert("Password not match. please check it");
+      dispatch(alertWarning("Password does not match"));
     }
   }
 
@@ -66,7 +90,7 @@ console.log("User credential from login ignore",userCredential);
         if (userCredential) {
           const token = await userCredential.getIdToken();
           const data = await validateUsersJwtToken(token);
-          console.log("Token:", data);
+          dispatch(setUserDetails(data));
         }
         navigate("/", { replace: true });
       });
@@ -191,6 +215,13 @@ console.log("User credential from login ignore",userCredential);
           </p>
         </motion.div>
       </div>
+      {isLoading && (
+      <motion.div {...fadeInOut} className=" fixed z-50 bg-cardOverlay inset-0 backdrop-blur-md flex justify-center items-center
+       w-full">
+<MainLoader />
+      </motion.div>
+    )}
+    {alert?.type && <Alert type={alert?.type} message={alert?.message}/>}
     </div>
   );
 };
