@@ -10,3 +10,4 @@ export {default as DbOrders} from "./DbOrders";
 export {default as DbUsers} from "./DbUsers";
 export {default as DbNewItem} from "./DbNewItem";
 export {default as DbItems} from "./DbItems";
+export {default as Spiner} from "./spiner";
