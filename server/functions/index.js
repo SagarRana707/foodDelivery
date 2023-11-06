@@ -20,4 +20,6 @@ app.get("/", (req, res) => {
   console.log("/ route");
 });
 app.use("/api/users", userRoute);
+const productRoutes = require("./routes/product");
+app.use("/api/products", productRoutes);
 exports.app = functions.https.onRequest(app);

@@ -11,3 +11,28 @@ return res.data.data;
         console.error(err);
     }
 };
+//add New product 
+export const addNewProduct = async (data) => { 
+try{
+    const res = await axios.post(`${baseURL}/api/products/create`,{...data});
+    console.log(res.data.data);
+  return await res.data.data;
+}
+catch(err){
+console.log("Error : ",err);
+return null;
+}
+;
+};
+//get ALL product 
+export const getAllProduct = async (data) => { 
+try{
+    const res = await axios.get(`${baseURL}/api/products/all`);
+    console.log(res.data.data);
+  return await res.data.data;
+}
+catch(err){
+console.log("Error : ",err);
+return null;
+}
+}
