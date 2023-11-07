@@ -1,17 +1,28 @@
 module.exports = {
   env: {
-    browser: true,
     es6: true,
+    node: true,
   },
-  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 2021, // Specify the ECMAScript version
-    sourceType: "module", // CommonJS modules are specified in the TypeScript configuration, so keep this as 'module'.
+    "ecmaVersion": 2018,
   },
-  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  extends: [
+    "eslint:recommended",
+    "google",
+  ],
   rules: {
-    // Add your project-specific rules here
-    // You may disable any rules that conflict with CommonJS usage.
-    "import/extensions": "off", // Disable extension checking in imports
+    "no-restricted-globals": ["error", "name", "length"],
+    "prefer-arrow-callback": "error",
+    "quotes": ["error", "double", {"allowTemplateLiterals": true}],
   },
+  overrides: [
+    {
+      files: ["**/*.spec.*"],
+      env: {
+        mocha: true,
+      },
+      rules: {},
+    },
+  ],
+  globals: {},
 };

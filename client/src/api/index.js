@@ -35,4 +35,28 @@ catch(err){
 console.log("Error : ",err);
 return null;
 }
-}
+};
+//delete a product 
+export const deleteProduct = async (productId) => { 
+    try{
+        const res = await axios.delete(`${baseURL}/api/products/delete/${productId}`);
+        console.log(res.data.data);
+      return await res.data.data;
+    }
+    catch(err){
+    console.error("Error : ",err);
+    return null;
+    }
+    };
+    //get all users 
+export const getAllUsers = async () => { 
+    try{
+        const res = await axios.get(`${baseURL}/api/users/all`);
+        console.log(res.data.data);
+      return await res.data.data;
+    }
+    catch(err){
+    console.error("Error : ",err);
+    return null;
+    }
+    };

@@ -1,86 +1,31 @@
-import React from "react";
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from "material-react-table";
-import { useSelector } from "react-redux";
-import { FaRupeeSign } from "react-icons/fa";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setAllProducts } from "../context/actions/productActions";
+import { getAllProduct } from "../api";
+import Table from "./materialItemTabel";
 
 const DbItems = () => {
+  const [items, setitems] = useState([]);
+  const dispatch = useDispatch();
+    const products  = useSelector(state => state?.products);
+    useEffect(() => {
+        if(!products){
+            getAllProduct().then(data => {
+                dispatch(setAllProducts(data));
+                setitems(data);
+            });
+            console.log("from use effect",products);
+        }
+    }, [products,dispatch]);
   const data = useSelector((state) => state.products);
-  const editProduct = (rowData) => {
-console.log(rowData);
-  };
 
-  const columns = [
-    // {
-    //   header: "Actions",
-    //   Cell: ({ rowData ,}) => (
-    //     <div>
-    //       <button
-    //         onClick={() => {
-    //           editProduct(rowData);
-    //         }} // Define your edit action here
-    //         className="btn-edit"
-    //       >
-    //         Edit
-    //       </button>
-    //       <button
-    //         onClick={() => {
-    //           console.log(rowData);
-    //         }} // Define your delete action here
-    //         className="btn-delete"
-    //       >
-    //         Delete
-    //       </button>
-    //     </div>
-    //   ),
-    // },
-    {
-      accessorKey: "imageUrl",
-      header: "Image",
-      Cell: ({ renderedCellValue }) => (
-        <img
-          src={renderedCellValue}
-          alt="Product"
-          style={{ width: "50px", height: "50px" }}
-        />
-      ),
-    },
-    {
-      accessorKey: "productName",
-      header: "Name",
-    },
-    {
-      accessorKey: "productCategory",
-      header: "Category",
-    },
-    {
-      accessorKey: "productPrice",
-      header: "Price",
-      Cell: ({ renderedCellValue }) => (
-        <div className=" flex items-center">
-          <FaRupeeSign className=" text-red-500" />
-          <span className=" font-bold">{renderedCellValue}</span>
-        </div>
-      ),
-    },
-  ];
-
-  const table = useMaterialReactTable({
-    data,
-    columns,
-  });
-
-  return (
-    <div className="flex justify-center items-center pt-6 gap-2 w-full">
-      <MaterialReactTable
-        table={table}
-      />
-      
-    </div>
-  );
+  if(!data || data === null){
+    return(<div>no Items</div>)
+  }else{
+return (<Table data={items} setitems={setitems}/>)
+  }
+ 
+  
 };
 
 export default DbItems;

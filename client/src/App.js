@@ -8,6 +8,7 @@ import { setUserDetails } from "./context/actions/userAction";
 import { motion} from "framer-motion";
 import { fadeInOut } from "./animations";
 import { Alert, MainLoader } from "./components";
+import Home from "./components/home";
 function App() {
   const dispatch =  useDispatch();
   const firebaseAuth = getAuth(app);
@@ -34,6 +35,7 @@ function App() {
       </motion.div>
     )}
     { alert?.type && <Alert type={alert?.type} message={alert?.type}/>}
+    <Home/>
     </div>;
 }
 
