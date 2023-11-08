@@ -11,3 +11,7 @@ export {default as DbUsers} from "./DbUsers";
 export {default as DbNewItem} from "./DbNewItem";
 export {default as DbItems} from "./DbItems";
 export {default as Spiner} from "./spiner";
+export {default as HomeSlider} from "./homeSlider";
+export {default as Swipers} from "./swiper";
+export {default as sliderCard} from "./sliderCard";
+export {default as FilterSection} from "./filterSection";

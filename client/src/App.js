@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "./context/actions/userAction";
 import { motion} from "framer-motion";
 import { fadeInOut } from "./animations";
-import { Alert, MainLoader } from "./components";
+import { Alert, FilterSection, HomeSlider, MainLoader } from "./components";
 import Home from "./components/home";
 function App() {
   const dispatch =  useDispatch();
@@ -36,6 +36,8 @@ function App() {
     )}
     { alert?.type && <Alert type={alert?.type} message={alert?.type}/>}
     <Home/>
+    <HomeSlider/>
+    <FilterSection/>
     </div>;
 }
 
