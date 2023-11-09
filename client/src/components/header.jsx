@@ -13,11 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { app } from "../config/firebase.config";
 import { getAuth } from "firebase/auth";
 import { setUserNull } from "../context/actions/userAction";
+import { setCartOn } from "../context/actions/displayCartActions";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const cart = useSelector((state) => state.cart);
   const [isMenu, setIsMenu] = useState(false);
   const firebaseAuth = getAuth(app);
   const signOut = () => {
@@ -68,13 +70,15 @@ const Header = () => {
           </NavLink>
         </ul>
         <motion.div
-          {...buttonClick}
+          onClick={() => {dispatch(setCartOn())}}
+          {...buttonClick} 
           className=" relative flex justify-center items-center"
         >
           <MdShoppingCart className=" text-2xl text-textColor" />
-          <div className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center absolute -top-1 -right-2">
-            <p className="text-white font-semibold ">2</p>
-          </div>
+          {cart?.length > 0 && ( <div 
+          className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center absolute -top-1 -right-2">
+            <p className="text-white font-semibold ">{cart.length}</p>
+          </div>)}
         </motion.div>
         {user ? (
           <div className=" relative cursor-pointer">

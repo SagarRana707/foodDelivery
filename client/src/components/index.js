@@ -15,3 +15,4 @@ export {default as HomeSlider} from "./homeSlider";
 export {default as Swipers} from "./swiper";
 export {default as sliderCard} from "./sliderCard";
 export {default as FilterSection} from "./filterSection";
+export {default as Cart} from "./cart";

@@ -60,3 +60,27 @@ export const getAllUsers = async () => {
     return null;
     }
     };
+// Add items to cart
+export const addNewItemToCart = async (userId,data) => { 
+  console.log(userId,data);
+  try{
+      const res = await axios.post(`${baseURL}/api/products/addToCart/${userId}`,data);
+      console.log(res.data.data);
+    return await res.data.data;
+  }
+  catch(err){
+  console.error("Error : ",err);
+  return null;
+  }
+  };
+  // Get all cart Items.
+  export const getAllCartItems = async (userId) => { 
+    try{
+        const res = await axios.get(`${baseURL}/api/products/getCartItems/${userId}`);
+      return await res.data.data;
+    }
+    catch(err){
+    console.error("Error : ",err);
+    return null;
+    }
+    };

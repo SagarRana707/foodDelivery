@@ -4,11 +4,11 @@ import { useSelector } from "react-redux";
 import { stagerFadeInOut } from "../animations";
 import {IoFastFood} from "react-icons/io5";
 import { statuses } from "../utils/styles";
+import SliderCard from "./sliderCard";
 const FilterSection = () => {
   const [category, setCategory] = useState();
   const products = useSelector((state) => state.products);
   return (
-    <div>
       <motion.div className=" w-full flex items-center justify-center flex-col px-3 py-3">
         <div className=" w-full flex justify-between items-center">
           <div className=" flex flex-col justify-start items-start gap-1 ">
@@ -18,10 +18,10 @@ const FilterSection = () => {
             <div className=" w-3/5 bg-orange-500 rounded-md h-1"></div>
           </div>
         </div>
-      </motion.div>
       <div className=" w-full overflow-x-scroll pt-6 flex justify-center items-center gap-4 py-6">
         {statuses && statuses?.map((data,i) => {
           return (<FilterCard
+          key={i}
           data = {data}
           category={category}
           setCategory={setCategory}
@@ -29,7 +29,14 @@ const FilterSection = () => {
           />)
         })}
       </div>
-    </div>
+      <div className=" w-full items-center flex justify-evenly flex-wrap gap-2 mt-6">
+{
+  products && products?.filter(data => 
+    data.productCategory === category
+  ).map((data ,i) => {return <SliderCard key={i} data={data} index={i}/>})
+}
+      </div>
+    </motion.div>
   );
 };
 export const FilterCard = ({ data, index, category, setCategory }) => {
