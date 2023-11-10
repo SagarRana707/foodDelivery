@@ -99,3 +99,15 @@ export const increaseItemQuatity = async (userId, productId, type) => {
   }
 };
 // Cart decrement
+export const decreaseItemQuatity = async (userId, productId, type) => {
+  try {
+    const res = axios.post(
+      `${baseURL}/api/products/updateCart/${userId}`,
+      null,
+      { params: { productId: productId, type: type } }
+    );
+    return (await res).data.data;
+  } catch (err) {
+    return console.error(`Error : ${err}`);
+  }
+};

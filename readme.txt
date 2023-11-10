@@ -22,3 +22,5 @@ its serviceAccountkey.json in server function folder
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-rngc0%40food-delivery-6707.iam.gserviceaccount.com",
   "universe_domain": "googleapis.com"
 }
+in Node dot env - STRIPE_KEY = sk_test_51OAnGNSIRm70d5bnNQ1riWMkvqsKQwFuKiBFOt6f4aClmVRTofjbVoYYWjpE9JPVNh03pRobrzvjn8lVEgqomXF100uy7qfL4P
+CLIENT_URL = http://localhost:3000;

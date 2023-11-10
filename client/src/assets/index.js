@@ -53,4 +53,5 @@ export { default as r3 } from './images/r3.png';
 export { default as r4 } from './images/r4.png';
 export { default as r5 } from './images/r5.png';
 export { default as LoginBg } from './images/loginBg.jpg';
+export { default as PaymentSuccess } from './images/paymentSucesss.png';
 
