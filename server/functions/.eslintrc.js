@@ -8,7 +8,6 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "google",
   ],
   rules: {
     "no-restricted-globals": ["error", "name", "length"],
@@ -19,7 +18,6 @@ module.exports = {
     {
       files: ["**/*.spec.*"],
       env: {
-        mocha: true,
       },
       rules: {},
     },

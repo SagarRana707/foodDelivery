@@ -111,3 +111,27 @@ export const decreaseItemQuatity = async (userId, productId, type) => {
     return console.error(`Error : ${err}`);
   }
 };
+//Get all the users
+export const getAllOrders = async () => {
+  try {
+    const res = await axios.get(
+      `${baseURL}/api/products/orders`
+    );
+    return await res.data.data;
+  } catch (err) {
+    console.error("Error : ", err);
+    return null;
+  }
+};
+//Update the order Status
+export const updateOrderSts = async (orderId,sts) => {
+  try {
+    const res = await axios.post(
+      `${baseURL}/api/products//updateOrder/${orderId}`,null,{params : {sts:sts}}
+    );
+    return await res.data.data;
+  } catch (err) {
+    console.error("Error : ", err);
+    return null;
+  }
+};

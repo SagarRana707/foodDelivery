@@ -128,58 +128,60 @@ router.post("/updateCart/:userId", async (req, res) => {
       .collection("items")
       .doc(`/${productId}/`)
       .get();
-      if(doc.data()){
-        if(type === "increment"){
-const quantity = (await doc.data().quantity) + 1;
-      const updatedItems = await db
-        .collection("cartItems")
-        .doc(`/${userId}/`)
-        .collection("items")
-        .doc(`/${productId}/`)
-        .update({ quantity });
-      return res.status(200).send({ success: true, data: updatedItems });
-        }else{
-          if(doc.data().quantity === 1){
-await db
-        .collection("cartItems")
-        .doc(`/${userId}/`)
-        .collection("items")
-        .doc(`/${productId}/`).delete().then((result) => {
-return res.status(200).send({ success: true, data: result });
-        })
-          }else{
-const quantity = (await doc.data().quantity) - 1;
-const updatedItems = await db
-  .collection("cartItems")
-  .doc(`/${userId}/`)
-  .collection("items")
-  .doc(`/${productId}/`)
-  .update({ quantity });
-return res.status(200).send({ success: true, data: updatedItems });
-          }
+    if (doc.data()) {
+      if (type === "increment") {
+        const quantity = (await doc.data().quantity) + 1;
+        const updatedItems = await db
+          .collection("cartItems")
+          .doc(`/${userId}/`)
+          .collection("items")
+          .doc(`/${productId}/`)
+          .update({ quantity });
+        return res.status(200).send({ success: true, data: updatedItems });
+      } else {
+        if (doc.data().quantity === 1) {
+          await db
+            .collection("cartItems")
+            .doc(`/${userId}/`)
+            .collection("items")
+            .doc(`/${productId}/`)
+            .delete()
+            .then((result) => {
+              return res.status(200).send({ success: true, data: result });
+            });
+        } else {
+          const quantity = (await doc.data().quantity) - 1;
+          const updatedItems = await db
+            .collection("cartItems")
+            .doc(`/${userId}/`)
+            .collection("items")
+            .doc(`/${productId}/`)
+            .update({ quantity });
+          return res.status(200).send({ success: true, data: updatedItems });
         }
       }
+    }
   } catch (err) {
-    return res.send({success : false, error : `Error : ${err}`})
+    return res.send({ success: false, error: `Error : ${err}` });
   }
 });
-router.post('/create-checkout-session', async (req, res) => {
+router.post("/create-checkout-session", async (req, res) => {
   const customer = await stripe.customers.create({
-    metadata : {
-      userId : req.body.data.user.user_id,
-      cart :JSON.stringify(req.body.data.cart),
-      total :req.body.data.total
-    }
+    metadata: {
+      userId: req.body.data.user.user_id,
+      cart: JSON.stringify(req.body.data.cart),
+      total: req.body.data.total,
+    },
   });
-  const line_items = req.body.data.cart.map(item => {
+  const line_items = req.body.data.cart.map((item) => {
     return {
       price_data: {
-        currency: 'inr',
+        currency: "inr",
         product_data: {
           name: item.productName,
           images: [item.imageUrl],
           metadata: {
-            id: item.productId
+            id: item.productId,
           },
         },
         unit_amount: item.productPrice * 100,
@@ -187,68 +189,155 @@ router.post('/create-checkout-session', async (req, res) => {
       quantity: item.quantity,
     };
   });
-
+  //this call the webhook.
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     shipping_address_collection: {
-      allowed_countries: ['IN'],
+      allowed_countries: ["IN"],
     },
-    shipping_options: [{
-      shipping_rate_data: {
-        type: "fixed_amount",
-        fixed_amount: { amount: 0, currency: "inr" },
-        display_name: "Free shipping",
-        delivery_estimate: {
-          minimum: { unit: "hour", value: 2 },
-          maximum: { unit: "hour", value: 4 },
-        }
-      }
-    }],
+    shipping_options: [
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: { amount: 0, currency: "inr" },
+          display_name: "Free shipping",
+          delivery_estimate: {
+            minimum: { unit: "hour", value: 2 },
+            maximum: { unit: "hour", value: 4 },
+          },
+        },
+      },
+    ],
     phone_number_collection: { enabled: true },
     line_items,
     customer: customer.id,
-    mode: 'payment',
-    success_url: `${process.env.CLIENT_URL}/checkOutSuccess`,
-    cancel_url: 'https://example.com/cancel',
+    mode: "payment",
+    success_url: `http://localhost:3000/checkOutSuccess`,
+    cancel_url: `http://localhost:3000`,
   });
 
   res.send({ url: session.url });
 });
-//stripe 
 let endpointSecret;
- endpointSecret = "whsec_1ba1ab69f0d0cd3615c4c7f945c39fd4beeaa47e09fedf96de4c8906fad67643";
+//  endpointSecret = "whsec_1ba1ab69f0d0cd3615c4c7f945c39fd4beeaa47e09fedf96de4c8906fad67643";
 
-router.post('/webhook', express.raw({type: 'application/json'}),async (request, response) => {
-  console.log('Webhook received!');
-  const sig = request.headers['stripe-signature'];
-let eventType;
-let data;
-  if(endpointSecret){
-  let event;
-    try {
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-    } catch (err) {
-      response.status(400).send(`Webhook Error: ${err.message}`);
-      return;
+router.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  async (request, response) => {
+    console.log("Webhook received!");
+    const sig = request.headers["stripe-signature"];
+    let eventType;
+    let data;
+    if (endpointSecret) {
+      let event;
+      try {
+        event = await stripe.webhooks.constructEvent(
+          request.body,
+          sig,
+          endpointSecret
+        );
+      } catch (err) {
+        response.status(400).send(`Webhook Error: ${err.message}`);
+        console.log(err);
+        return;
+      }
+      data = await event.data.object;
+      eventType = await event.type;
+    } else {
+      try {
+        data = request.body.data.object;
+        eventType = request.body.type;
+      } catch (err) {
+        console.log(" ERROR in webhook :", err);
+      }
     }
-    data = event.data.object;
-eventType = event.type;
-  }else{
-data = request.body.data.object;
-eventType = request.body.type;
+
+    // Log received data and event type
+    // Handle the event
+    if (eventType === "checkout.session.completed") {
+      await stripe.customers.retrieve(data.customer).then(async (customer) => {
+        // console.log("Customer details :", customer);
+        // console.log("Data :", data);
+        await createOrder(customer, data, response);
+      });
+    }
+
+    // Return a 200 response to acknowledge receipt of the event
+    response.send().end();
   }
+);
 
-// Log received data and event type
-console.log('Received webhook:', eventType, data);
-  // Handle the event
- if(eventType === "checkout.session.completed"){
-  await stripe.customers.retrieve(data.customer).then((customer) => {
-console.log("Customer details",customer);
-console.log("Data",data);
-  })
- }
-
-  // Return a 200 response to acknowledge receipt of the event
-  response.send();
+const createOrder = async (customer, intend, res) => {
+  console.log("inside the orders");
+  try {
+    const orderId = Date.now();
+    const data = {
+      intendId: intend.id,
+      orderId: orderId,
+      amount: intend.amount_total,
+      created: intend.created,
+      payment_method_types: intend.payment_method_types,
+      status: intend.payment_status,
+      customer: intend.customer_details,
+      shippingDetails: intend.shipping_details,
+      userId: customer.metadata.userId,
+      items: JSON.parse(customer.metadata.cart),
+      total: customer.metadata.total,
+      sts: "preparing",
+    };
+    await db.collection("orders").doc(`/${orderId}/`).set(data);
+    await deleteCart(
+      customer.metadata.userId,
+      JSON.parse(customer.metadata.cart)
+    );
+    console.log("************************");
+    return res.status(200).send({ success: true });
+  } catch (err) {
+    console.log(`Error : ${err}`);
+  }
+};
+const deleteCart = async (userId, items) => {
+  console.log("UserId in delete cart : ", userId);
+  console.log("************************");
+  items.map(async (data) => {
+    console.log("---------inside---------", userId, data.productId);
+    return await db
+      .collection("cartItems")
+      .doc(`/${userId}/`)
+      .collection("items")
+      .doc(`/${data.productId}/`)
+      .delete().then(() => {console.log("-----------success----------");});
+  });
+};
+// Orders
+router.get("/orders", async (req, res) => {
+  (async () => {
+    try {
+      let query = db.collection("orders");
+      let responce = [];
+      await query.get().then((querysnap) => {
+        let docs = querysnap.docs;
+        docs.map((doc) => {
+          responce.push({ ...doc.data() });
+        });
+        return responce;
+      });
+      return res.status(200).send({ success: true, data: responce });
+    } catch (err) {
+      return res.send({ success: false, error: `Error : ${err}` });
+    }
+  })();
 });
+// Update orders 
+router.post("/updateOrder/:orderId",async (req,res) => {
+const orderId = req.params.orderId;
+const sts = req.query.sts;
+try{
+  const updatedItems= await db.collection("orders").doc(`/${orderId}/`).update({sts});
+  return res.status(200).send({success : true,data : updatedItems});
+}catch(err){
+  return res.send({success : false, msg : err});
+}
+})
 module.exports = router;

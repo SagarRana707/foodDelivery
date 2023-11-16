@@ -16,3 +16,5 @@ export {default as Swipers} from "./swiper";
 export {default as sliderCard} from "./sliderCard";
 export {default as FilterSection} from "./filterSection";
 export {default as Cart} from "./cart";
+export {default as OrderData} from "./ordersData";
+export {default as userOrders} from "./userOrders";

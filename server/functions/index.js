@@ -9,7 +9,7 @@ const userRoute = require("./routes/users");
 app.use(express.json());
 app.use(cors({ origin: true }));
 app.use((req, res, next) => {
-  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Origin",  "*");
   next();
 });
 admin.initializeApp({

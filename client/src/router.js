@@ -3,6 +3,7 @@ import { Dashboard, Login, Main } from "./containers";
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import CheckOutSuccess from "./components/checkOutSuccess";
+import UserOrders from "./components/userOrders";
 
 const router = createBrowserRouter([
   {
@@ -26,15 +27,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard/*",
-    element: (
-        <Dashboard />
-    ),
+    element: <Dashboard />,
   },
   {
     path: "/checkOutSuccess",
-    element: (
-        <CheckOutSuccess/>
-    ),
+    element: <CheckOutSuccess />,
+  },
+  {
+    path: "/userOrders",
+    element: <UserOrders />,
   },
 ]);
 export default router;
