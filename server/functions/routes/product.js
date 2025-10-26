@@ -341,3 +341,47 @@ try{
 }
 })
 module.exports = router;
+{codedrill - sagar.codedrill@gmail.com
+            Code@sr06
+
+gmail - ranarana1
+
+github - sagarrana23707@gmail.com
+       - Ranarana1#@
+postMan - sagarrana23707@gmail.com
+       - ranarana1
+heruku - sagarrana23707@gmail.com
+       - Code@sr06
+linkIn - sagarrana23707@gmail.com
+        - ranarana1
+
+amazon - sagarrana23707@Gmail.com
+       -  ranarana1
+
+chatgpt - sagarrana23707@gmail.com
+        - ranarana1
+
+supabase - password for database 
+          -Code@sr06statusBoard
+
+pgb - Stab9860Code06@  rnsaction Codesr06@#SR login
+
+instagram - royalrajputZX12#.@
+
+facebook -- Code@sr06.#
+
+discord -- sagarrana23707@gmail.com
+            Codesr06#.
+
+mySql -- @Sr06rana1
+
+PostgreSQL - @Sr06rana1
+
+typing club -- typingClub1@
+
+UAN - 102039058266
+PF - Codesr06# Members account -- Drillsr06#
+
+ProtonMail - garry_242@protonmail.com ranarana1#
+
+Instagram2 - rana1.918 77106athlete1.}
