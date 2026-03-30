@@ -347,7 +347,7 @@ module.exports = router;
 gmail - ranarana1
 
 github - sagarrana23707@gmail.com
-       - Ranarana1#@
+       - Athle776@
 postMan - sagarrana23707@gmail.com
        - ranarana1
 heruku - sagarrana23707@gmail.com
