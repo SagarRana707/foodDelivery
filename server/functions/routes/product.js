@@ -366,7 +366,7 @@ supabase - password for database
 
 pgb - Stab9860Code06@  rnsaction Codesr06@#SR login
 
-instagram - royalrajputZX12#.@
+instagram - royalrajputZX12-@
 
 facebook -- Code@sr06.#
 
